@@ -8,3 +8,66 @@ Created on Tue Oct 14 22:21:16 2025
 This code is adapted from CS 435 Module 4 Exercise 1 & 2 sample code written by
 Dr. G.
 """
+
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+from sklearn.model_selection import train_test_split
+import tensorflow.keras
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense, Dropout, LSTM
+from tensorflow.keras.optimizers import Adam
+import matplotlib.pyplot as plt
+from tensorflow.keras import layers
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import MinMaxScaler
+
+
+# ----------------------------------------
+# Step 1.1 - Read the dataset into python
+# ----------------------------------------
+filename = "./Mod4_SummerStudentAdmissionsData_3Labeled_4D.csv"
+DF = pd.read_csv(filename)
+print(DF)
+
+
+# ----------------------------------------
+# Step 1.2 - One-hot encode the label
+# ----------------------------------------
+# Print each part to see what is going on
+print("Labels in DF:\n", DF.iloc[:, 0])
+Labels = np.array(DF.iloc[:, 0])
+print("Extracted lables as an (n,) 1D array:\n", Labels)
+
+# Encode labels as 0 1 2
+MyLabelEncoder = LabelEncoder()
+Encoded_labels = MyLabelEncoder.fit_transform(Labels)
+print("Encoded labels:\n", Encoded_labels)
+
+# One-hot encoding
+MyOneHotEncoder = OneHotEncoder()
+Encoded_labels = Encoded_labels.reshape(-1, 1)
+print("Encoded labels with shape(n, 1):\n", Encoded_labels)
+OneHotEncodedLabels = MyOneHotEncoder.fit_transform(Encoded_labels).toarray()
+print("One-hot encoded lables:\n", OneHotEncodedLabels)
+
+
+# ----------------------------------------
+# Step 1.3. - Save label separately
+# ----------------------------------------
+# the original labels are saved as var Label
+print("The original labels as found in the dataset and saved separately:\n",
+      Labels)
+# Final one-hot encoded lables saved separately as well
+HotLabels = OneHotEncodedLabels
+print("Final one-hot encoded lables are separated as well\n", HotLabels)
+
+
+# ----------------------------------------
+# 1.4 - Save the data separately
+# ----------------------------------------
+MyData = DF.drop(columns="Decision", axis=1)
+print("Data saved separately from the labels:\n", MyData)
