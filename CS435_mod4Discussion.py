@@ -58,7 +58,7 @@ print("One-hot encoded lables:\n", OneHotEncodedLabels)
 # ----------------------------------------
 # Step 1.3. - Save label separately
 # ----------------------------------------
-# the original labels are saved as var Label
+# the original labels are saved as Label
 print("The original labels as found in the dataset and saved separately:\n",
       Labels)
 # Final one-hot encoded lables saved separately as well
@@ -71,3 +71,27 @@ print("Final one-hot encoded lables are separated as well\n", HotLabels)
 # ----------------------------------------
 MyData = DF.drop(columns="Decision", axis=1)
 print("Data saved separately from the labels:\n", MyData)
+
+
+# ----------------------------------------
+# 2.1 - Split data into training and testing data
+# ----------------------------------------
+TrainDF, TestDF, TrainLabels, TestLabels = train_test_split(MyData, HotLabels, test_size=0.3, random_state=13)
+# Training data and labels
+print("Training dataset:\n", TrainDF)
+print("Training labels:\n", TrainLabels)
+
+# Testing data and labels
+print("Testing dataset:\n", TestDF)
+print("Testing labels:\n", TestLabels)
+
+# ----------------------------------------
+# 2.2 - Normalize data
+# ----------------------------------------
+MyMM = MinMaxScaler()
+
+TrainDF = MyMM.fit_transform(TrainDF)
+print("Normalized training dataset:\n", TrainDF)
+
+TestDF = MyMM.fit_transform(TestDF)
+print("Normalized testing dataset\n", TestDF)
