@@ -95,3 +95,49 @@ print("Normalized training dataset:\n", TrainDF)
 
 TestDF = MyMM.fit_transform(TestDF)
 print("Normalized testing dataset\n", TestDF)
+
+# ----------------------------------------
+# 3.1 - Instantiate a tf.keras Sequential Model
+# ----------------------------------------
+My_NN_Model = tf.keras.models.Sequential([
+    # The input shape of our data is a vector of 4 values.
+    # Here, we are sending our data to a hidden layer that has 5 hidden units
+    tf.keras.layers.Dense(5, input_shape=(4,), activation='relu'),
+    tf.keras.layers.Dense(4, activation='relu'),
+    tf.keras.layers.Dense(5, activation='relu'),
+    tf.keras.layers.Dense(4, activation='relu'),
+    tf.keras.layers.Dense(3, activation='softmax')
+    ])
+
+My_NN_Model.summary()
+
+# Print the parameters - weights and biases
+first_layer_weights = My_NN_Model.layers[0].get_weights()[0]
+first_layer_biases = My_NN_Model.layers[0].get_weights()[1]
+
+second_layer_weights = My_NN_Model.layers[1].get_weights()[0]
+second_layer_biases = My_NN_Model.layers[1].get_weights()[1]
+
+third_layer_weights = My_NN_Model.layers[2].get_weights()[0]
+third_layer_biases = My_NN_Model.layers[2].get_weights()[1]
+
+fourth_layer_weights = My_NN_Model.layers[3].get_weights()[0]
+fourth_layer_biases = My_NN_Model.layers[3].get_weights()[1]
+
+fifth_layer_weights = My_NN_Model.layers[4].get_weights()[0]
+fifth_layer_biases = My_NN_Model.layers[4].get_weights()[1]
+
+print("The first layer weights are: \n", first_layer_weights)
+print("The first layer biases are: \n", first_layer_biases)
+
+print("The second layer weights are: \n", second_layer_weights)
+print("The second layer biases are: \n", second_layer_biases)
+
+print("The third layer weights are: \n", third_layer_weights)
+print("The third layer biases are: \n", third_layer_biases)
+
+print("The fourth layer weights are: \n", fourth_layer_weights)
+print("The fourth layer biases are: \n", fourth_layer_biases)
+
+print("The fifth layer weights are: \n", fifth_layer_weights)
+print("The fifth layer biases are: \n", fifth_layer_biases)
