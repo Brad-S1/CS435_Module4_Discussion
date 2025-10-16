@@ -11,14 +11,9 @@ Dr. G.
 
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras import layers
 from sklearn.model_selection import train_test_split
 import tensorflow.keras
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import LSTM, Dense, Dropout, LSTM
-from tensorflow.keras.optimizers import Adam
 import matplotlib.pyplot as plt
-from tensorflow.keras import layers
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
@@ -173,11 +168,6 @@ plt.ylim([0.1, 1])
 plt.legend(loc='lower right')
 plt.show()
 
-# Test_Loss, Test_Accuracy = My_NN_Model.evaluate(TestDF, TestLabels)
-
-# # Save the Model
-# My_NN_Model.export("Example2_NN_Model")
-
 # ----------------------------------------
 # 4.3 - Create confusion matrix (and test model)
 # ----------------------------------------
@@ -213,7 +203,7 @@ TestingLabels_original = MyLabelEncoder.inverse_transform(TestingLabels_indices)
 print("Testing labels converted back to original strings:\n",
       TestingLabels_original)  # Will show ['Admit', 'Waitlist', 'Decline', ...]
 
-
+# Create confusion matrix
 labels = ["Admit", "Decline", "Waitlist"]
 cm = confusion_matrix(TestingLabels_original, PredictionsList)
 fig, ax = plt.subplots(figsize=(13, 13))
