@@ -24,6 +24,8 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import MinMaxScaler
+import seaborn as sns
+from sklearn.metrics import confusion_matrix
 
 
 # ----------------------------------------
@@ -153,3 +155,72 @@ My_NN_Model.compile(
                  metrics=["accuracy"],
                  optimizer=My_optimizer
                  )
+
+# ----------------------------------------
+# 4.1 - Train and test model
+# ----------------------------------------
+Hist = My_NN_Model.fit(TrainDF, TrainLabels, epochs=500, validation_data=(TestDF, TestLabels))
+
+# ----------------------------------------
+# 4.2 - Create accuracy plot (and test model)
+# ----------------------------------------
+# visualize the accuracy of the model
+plt.plot(Hist.history['accuracy'], label='accuracy')
+plt.plot(Hist.history['val_accuracy'], label='val_accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.ylim([0.1, 1])
+plt.legend(loc='lower right')
+plt.show()
+
+# Test_Loss, Test_Accuracy = My_NN_Model.evaluate(TestDF, TestLabels)
+
+# # Save the Model
+# My_NN_Model.export("Example2_NN_Model")
+
+# ----------------------------------------
+# 4.3 - Create confusion matrix (and test model)
+# ----------------------------------------
+# First we need the model to make predictions
+predictions = My_NN_Model.predict(TestDF)
+print("Test dataset predictions by the trained model:\n", predictions)
+
+NumPred = len(predictions)
+PredictionsList = []
+
+# Convert predictions to 'Admit', 'Decline', 'Waitlist'
+for i in range(NumPred):
+    max_pred = np.argmax(predictions[i])
+    if (max_pred == 0):
+        pred = "Admit"
+    elif (max_pred == 1):
+        pred = "Decline"
+    else:
+        pred = "Waitlist"
+    PredictionsList.append(pred)
+
+print("Converted predictions to strings: \n", PredictionsList)
+
+# In order to use confusionmatrix, need to convert test labels from one-hot
+# back to strings
+
+# Step 1: Convert one-hot encoded back to class indices (0, 1, 2)
+TestingLabels_indices = np.argmax(TestLabels, axis=1)
+print("Indicies of the testing labels:\n", TestingLabels_indices)  # Will show array like [0, 2, 1, 0, ...]
+
+# Step 2: Convert indices back to original labels using the encoder
+TestingLabels_original = MyLabelEncoder.inverse_transform(TestingLabels_indices)
+print("Testing labels converted back to original strings:\n",
+      TestingLabels_original)  # Will show ['Admit', 'Waitlist', 'Decline', ...]
+
+
+labels = ["Admit", "Decline", "Waitlist"]
+cm = confusion_matrix(TestingLabels_original, PredictionsList)
+fig, ax = plt.subplots(figsize=(13, 13))
+sns.heatmap(cm, annot=True, fmt='g', ax=ax, annot_kws={'size': 18})
+ax.set_xlabel('Predicted labels')
+ax.set_ylabel('True/Actual labels')
+ax.set_title('Confusion Matrix: NN')
+ax.xaxis.set_ticklabels(["0:Admit", "1:Decline", "2:Waitlist"],rotation=90, fontsize = 12)
+ax.yaxis.set_ticklabels(["0:Admit", "1:Decline", "2:Waitlist"],rotation=0, fontsize = 12)
+plt.show()
