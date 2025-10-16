@@ -141,3 +141,15 @@ print("The fourth layer biases are: \n", fourth_layer_biases)
 
 print("The fifth layer weights are: \n", fifth_layer_weights)
 print("The fifth layer biases are: \n", fifth_layer_biases)
+
+# ----------------------------------------
+# 3.2 - Compile the model
+# ----------------------------------------
+My_loss_function = keras.losses.CategoricalCrossentropy()
+My_optimizer = tf.keras.optimizers.Adam(learning_rate=0.005)
+
+My_NN_Model.compile(
+                 loss=My_loss_function,
+                 metrics=["accuracy"],
+                 optimizer=My_optimizer
+                 )
